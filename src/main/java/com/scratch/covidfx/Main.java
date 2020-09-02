@@ -42,7 +42,7 @@ public class Main extends Application {
 
         ObservableList<CovidRecord> items = FXCollections.observableArrayList();
         final FilteredList<CovidRecord> filteredItems = new FilteredList<>(items, s -> true);
-        final SortedList<CovidRecord> sortedItems = new SortedList<>(filteredItems, Comparator.reverseOrder());
+        final SortedList<CovidRecord> sortedItems = new SortedList<>(filteredItems, Comparator.naturalOrder());
         TableView<CovidRecord> tableView = new TableView<>(sortedItems);
 
         TableColumn<CovidRecord, LocalDate> dateColumn = new TableColumn<>("Date");
