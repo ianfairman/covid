@@ -1,6 +1,7 @@
 package com.scratch.covidfx;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import static java.util.Objects.requireNonNull;
 
 public class CovidRecord implements Comparable<CovidRecord> {
@@ -65,5 +66,9 @@ public class CovidRecord implements Comparable<CovidRecord> {
       return getDate().compareTo(o.getDate());
     }
     return getCountry().compareTo(o.getCountry());
+  }
+  
+  public long calculateAgeInDays() {
+      return ChronoUnit.DAYS.between(getDate(), LocalDate.now());
   }
 }

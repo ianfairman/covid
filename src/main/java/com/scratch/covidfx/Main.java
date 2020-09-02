@@ -108,7 +108,7 @@ public class Main extends Application {
                     newCasesSeries.getData().clear();
 //                    deathsSeries.getData().clear();
                   } else {
-                    filteredItems.setPredicate(r -> r.getCountry().equals(newVal));
+                    filteredItems.setPredicate(r -> r.getCountry().equals(newVal) && r.calculateAgeInDays() <= 31);
                     lineChart.setTitle(newVal);
                     newCasesSeries.getData().clear();
 //                    deathsSeries.getData().clear();
