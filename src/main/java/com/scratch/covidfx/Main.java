@@ -78,11 +78,11 @@ public class Main extends Application {
         //defining a series
         final XYChart.Series newCasesSeries = new XYChart.Series();
         newCasesSeries.setName("New Cases");
-        final XYChart.Series deathsSeries = new XYChart.Series();
-        deathsSeries.setName("Deaths");
+//        final XYChart.Series deathsSeries = new XYChart.Series();
+//        deathsSeries.setName("Deaths");
         
         lineChart.getData().add(newCasesSeries);        
-        lineChart.getData().add(deathsSeries);        
+//        lineChart.getData().add(deathsSeries);        
         try (InputStream resourceStream = Main.class.getResourceAsStream("/covid-19-20200902.csv");
                 Reader resourceReader = new InputStreamReader(resourceStream);
                 BufferedReader reader = new BufferedReader(resourceReader)) {
@@ -106,15 +106,15 @@ public class Main extends Application {
                     filteredItems.setPredicate(s -> true);
                     lineChart.setTitle("");
                     newCasesSeries.getData().clear();
-                    deathsSeries.getData().clear();
+//                    deathsSeries.getData().clear();
                   } else {
                     filteredItems.setPredicate(r -> r.getCountry().equals(newVal));
                     lineChart.setTitle(newVal);
                     newCasesSeries.getData().clear();
-                    deathsSeries.getData().clear();
+//                    deathsSeries.getData().clear();
                     sortedItems.forEach(x -> {
                       newCasesSeries.getData().add(new XYChart.Data(x.getDate().toString(), x.getCases()));
-                      deathsSeries.getData().add(new XYChart.Data(x.getDate().toString(), x.getDeaths()));
+//                      deathsSeries.getData().add(new XYChart.Data(x.getDate().toString(), x.getDeaths()));
                             });
                   }
             }
