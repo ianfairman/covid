@@ -83,7 +83,7 @@ public class Main extends Application {
         
         lineChart.getData().add(newCasesSeries);        
         lineChart.getData().add(deathsSeries);        
-        try (InputStream resourceStream = Main.class.getResourceAsStream("/covid-19-20200826.csv");
+        try (InputStream resourceStream = Main.class.getResourceAsStream("/covid-19-20200902.csv");
                 Reader resourceReader = new InputStreamReader(resourceStream);
                 BufferedReader reader = new BufferedReader(resourceReader)) {
           CSVReader csvReader = new CSVReader(reader);
