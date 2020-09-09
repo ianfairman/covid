@@ -97,9 +97,11 @@ public class Main extends Application {
                     filteredTableItems.setPredicate(r -> r.getCountry().equals(newVal));
                     lineChart.setTitle(newVal);
                     newCasesSeries.getData().clear();
+                    lineChart.setAnimated(true);
                     sortedGraphItems.forEach(x -> {
                       newCasesSeries.getData().add(new XYChart.Data(x.getDate().toString(), x.getCases()));
                             });
+                    lineChart.setAnimated(false);
                   }
             }
         });
