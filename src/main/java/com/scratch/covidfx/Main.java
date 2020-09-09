@@ -41,9 +41,11 @@ public class Main extends Application {
         primaryStage.setTitle("Covid-19 Stats");
 
         ObservableList<CovidRecord> items = FXCollections.observableArrayList();
-        final FilteredList<CovidRecord> filteredItems = new FilteredList<>(items, s -> true);
-        final SortedList<CovidRecord> sortedItems = new SortedList<>(filteredItems, Comparator.naturalOrder());
-        TableView<CovidRecord> tableView = new TableView<>(sortedItems);
+        final FilteredList<CovidRecord> filteredGraphItems = new FilteredList<>(items, s -> true);
+        final SortedList<CovidRecord> sortedGraphItems = new SortedList<>(filteredGraphItems, Comparator.naturalOrder());
+        final FilteredList<CovidRecord> filteredTableItems = new FilteredList<>(items, s -> true);
+        final SortedList<CovidRecord> sortedTableItems = new SortedList<>(filteredTableItems, Comparator.reverseOrder());
+        TableView<CovidRecord> tableView = new TableView<>(sortedTableItems);
 
         tableView.getColumns().add(createLocalDateColumn("Date", "date"));
         tableView.getColumns().add(createStringColumn("Country", "country"));
@@ -86,14 +88,16 @@ public class Main extends Application {
                 public void changed(ObservableValue<? extends String> ov, 
                     String oldValue, String newVal) {
                   if (newVal == null) {
-                    filteredItems.setPredicate(s -> true);
+                    filteredGraphItems.setPredicate(s -> true);
+                    filteredTableItems.setPredicate(s -> true);
                     lineChart.setTitle("");
                     newCasesSeries.getData().clear();
                   } else {
-                    filteredItems.setPredicate(r -> r.getCountry().equals(newVal) && r.calculateAgeInDays() <= 31);
+                    filteredGraphItems.setPredicate(r -> r.getCountry().equals(newVal) && r.calculateAgeInDays() <= 31);
+                    filteredTableItems.setPredicate(r -> r.getCountry().equals(newVal));
                     lineChart.setTitle(newVal);
                     newCasesSeries.getData().clear();
-                    sortedItems.forEach(x -> {
+                    sortedGraphItems.forEach(x -> {
                       newCasesSeries.getData().add(new XYChart.Data(x.getDate().toString(), x.getCases()));
                             });
                   }
