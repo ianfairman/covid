@@ -38,32 +38,19 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Covid-19 App");
+        primaryStage.setTitle("Covid-19 Stats");
 
         ObservableList<CovidRecord> items = FXCollections.observableArrayList();
         final FilteredList<CovidRecord> filteredItems = new FilteredList<>(items, s -> true);
         final SortedList<CovidRecord> sortedItems = new SortedList<>(filteredItems, Comparator.naturalOrder());
         TableView<CovidRecord> tableView = new TableView<>(sortedItems);
 
-        TableColumn<CovidRecord, LocalDate> dateColumn = new TableColumn<>("Date");
-        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        TableColumn<CovidRecord, String> countryColumn = new TableColumn<>("Country");
-        countryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
-        TableColumn<CovidRecord, String> continentColumn = new TableColumn<>("Continent");
-        continentColumn.setCellValueFactory(new PropertyValueFactory<>("continent"));
-        TableColumn<CovidRecord, Integer> casesColumn = new TableColumn<>("New Cases");
-        casesColumn.setCellValueFactory(new PropertyValueFactory<>("cases"));
-        TableColumn<CovidRecord, Integer> deathsColumn = new TableColumn<>("Deaths");
-        deathsColumn.setCellValueFactory(new PropertyValueFactory<>("deaths"));
-        TableColumn<CovidRecord, Integer> populationColumn = new TableColumn<>("Population");
-        populationColumn.setCellValueFactory(new PropertyValueFactory<>("population"));
-
-        tableView.getColumns().add(dateColumn);
-        tableView.getColumns().add(countryColumn);
-        tableView.getColumns().add(continentColumn);
-        tableView.getColumns().add(casesColumn);
-        tableView.getColumns().add(deathsColumn);
-        tableView.getColumns().add(populationColumn);
+        tableView.getColumns().add(createLocalDateColumn("Date", "date"));
+        tableView.getColumns().add(createStringColumn("Country", "country"));
+        tableView.getColumns().add(createStringColumn("Continent", "continent"));
+        tableView.getColumns().add(createIntegerColumn("New Cases", "cases"));
+        tableView.getColumns().add(createIntegerColumn("Deaths", "deaths"));
+        tableView.getColumns().add(createIntegerColumn("Population", "population"));
 
         ObservableList<String> countries = FXCollections.observableArrayList();
         
@@ -71,18 +58,13 @@ public class Main extends Application {
         final NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Date");
         yAxis.setLabel("People");
-        //creating the chart
         final LineChart<String,Number> lineChart = new LineChart<>(xAxis,yAxis);
                 
         lineChart.setTitle("New Cases by Date");
-        //defining a series
         final XYChart.Series newCasesSeries = new XYChart.Series();
         newCasesSeries.setName("New Cases");
-//        final XYChart.Series deathsSeries = new XYChart.Series();
-//        deathsSeries.setName("Deaths");
         
         lineChart.getData().add(newCasesSeries);        
-//        lineChart.getData().add(deathsSeries);        
         try (InputStream resourceStream = Main.class.getResourceAsStream("/covid-19-20200902.csv");
                 Reader resourceReader = new InputStreamReader(resourceStream);
                 BufferedReader reader = new BufferedReader(resourceReader)) {
@@ -90,7 +72,8 @@ public class Main extends Application {
           csvReader.skip(1);
           List<String[]> records = csvReader.readAll();
           records.stream().map(CovidRecord::new).forEach(r -> items.add(r));
-          records.stream().map(r -> r[6]).map(r -> r.replace('_', ' ')).distinct().forEach(c -> countries.add(c));
+          records.stream().map(r -> r[COUNTRY_COLUMN_INDEX])
+                  .map(r -> r.replace('_', ' ')).distinct().forEach(c -> countries.add(c));
         } catch (IOException | CsvException ex) {
           throw new RuntimeException(ex);
         }
@@ -106,21 +89,17 @@ public class Main extends Application {
                     filteredItems.setPredicate(s -> true);
                     lineChart.setTitle("");
                     newCasesSeries.getData().clear();
-//                    deathsSeries.getData().clear();
                   } else {
                     filteredItems.setPredicate(r -> r.getCountry().equals(newVal) && r.calculateAgeInDays() <= 31);
                     lineChart.setTitle(newVal);
                     newCasesSeries.getData().clear();
-//                    deathsSeries.getData().clear();
                     sortedItems.forEach(x -> {
                       newCasesSeries.getData().add(new XYChart.Data(x.getDate().toString(), x.getCases()));
-//                      deathsSeries.getData().add(new XYChart.Data(x.getDate().toString(), x.getDeaths()));
                             });
                   }
             }
         });
 
-        
         HBox hBox = new HBox();
         hBox.getChildren().addAll(tableView, countryList);
         VBox vBox = new VBox();
@@ -130,5 +109,24 @@ public class Main extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+    private static final int COUNTRY_COLUMN_INDEX = 6;
+
+    private TableColumn<CovidRecord, String> createStringColumn(String tableHeading, String propertyName) {
+        TableColumn<CovidRecord, String> countryColumn = new TableColumn<>(tableHeading);
+        countryColumn.setCellValueFactory(new PropertyValueFactory<>(propertyName));
+        return countryColumn;
+    }
+
+    private TableColumn<CovidRecord, LocalDate> createLocalDateColumn(String tableHeading, String propertyName) {
+        TableColumn<CovidRecord, LocalDate> column = new TableColumn<>(tableHeading);
+        column.setCellValueFactory(new PropertyValueFactory<>(propertyName));
+        return column;
+    }
+
+    private TableColumn<CovidRecord, Integer> createIntegerColumn(String tableHeading, String propertyName) {
+        TableColumn<CovidRecord, Integer> column = new TableColumn<>(tableHeading);
+        column.setCellValueFactory(new PropertyValueFactory<>(propertyName));
+        return column;
     }
 }
