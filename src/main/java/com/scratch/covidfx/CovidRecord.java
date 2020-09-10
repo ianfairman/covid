@@ -71,4 +71,12 @@ public class CovidRecord implements Comparable<CovidRecord> {
   public long calculateAgeInDays() {
       return ChronoUnit.DAYS.between(getDate(), LocalDate.now());
   }
+  
+  public boolean isCountry(String country) {
+    return getCountry().equals(country);
+  }
+  
+  public boolean isCountryAndRecent(String country) {
+    return isCountry(country) && calculateAgeInDays() <= 31;
+  }
 }

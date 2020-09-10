@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import javafx.application.Application;
@@ -23,9 +22,6 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -43,29 +39,19 @@ public class Main extends Application {
         ObservableList<CovidRecord> items = FXCollections.observableArrayList();
         final FilteredList<CovidRecord> filteredGraphItems = new FilteredList<>(items, s -> true);
         final SortedList<CovidRecord> sortedGraphItems = new SortedList<>(filteredGraphItems, Comparator.naturalOrder());
-        final FilteredList<CovidRecord> filteredTableItems = new FilteredList<>(items, s -> true);
-        final SortedList<CovidRecord> sortedTableItems = new SortedList<>(filteredTableItems, Comparator.reverseOrder());
-        TableView<CovidRecord> tableView = new TableView<>(sortedTableItems);
+        final CovidTableView tableView = new CovidTableView(items);
 
-        tableView.getColumns().add(createLocalDateColumn("Date", "date"));
-        tableView.getColumns().add(createStringColumn("Country", "country"));
-        tableView.getColumns().add(createStringColumn("Continent", "continent"));
-        tableView.getColumns().add(createIntegerColumn("New Cases", "cases"));
-        tableView.getColumns().add(createIntegerColumn("Deaths", "deaths"));
-        tableView.getColumns().add(createIntegerColumn("Population", "population"));
-
-        ObservableList<String> countries = FXCollections.observableArrayList();
-        
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Date");
         yAxis.setLabel("People");
-        final LineChart<String,Number> lineChart = new LineChart<>(xAxis,yAxis);
+        final LineChart<String,Number> lineChart = new LineChart<>(xAxis, yAxis);
                 
         lineChart.setTitle("New Cases by Date");
         final XYChart.Series newCasesSeries = new XYChart.Series();
         newCasesSeries.setName("New Cases");
         
+        ObservableList<String> countries = FXCollections.observableArrayList();
         lineChart.getData().add(newCasesSeries);        
         try (InputStream resourceStream = Main.class.getResourceAsStream("/covid-19-20200902.csv");
                 Reader resourceReader = new InputStreamReader(resourceStream);
@@ -86,16 +72,15 @@ public class Main extends Application {
             new ChangeListener<String>() {
                 @Override
                 public void changed(ObservableValue<? extends String> ov, 
-                    String oldValue, String newVal) {
-                  if (newVal == null) {
+                    String oldValue, String newValue) {
+                  tableView.filterOnCountry(newValue);
+                  if (newValue == null) {
                     filteredGraphItems.setPredicate(s -> true);
-                    filteredTableItems.setPredicate(s -> true);
                     lineChart.setTitle("");
                     newCasesSeries.getData().clear();
                   } else {
-                    filteredGraphItems.setPredicate(r -> r.getCountry().equals(newVal) && r.calculateAgeInDays() <= 31);
-                    filteredTableItems.setPredicate(r -> r.getCountry().equals(newVal));
-                    lineChart.setTitle(newVal);
+                    filteredGraphItems.setPredicate(r -> r.isCountryAndRecent(newValue));
+                    lineChart.setTitle(newValue);
                     newCasesSeries.getData().clear();
                     lineChart.setAnimated(true);
                     sortedGraphItems.forEach(x -> {
@@ -117,22 +102,4 @@ public class Main extends Application {
         primaryStage.show();
     }
     private static final int COUNTRY_COLUMN_INDEX = 6;
-
-    private TableColumn<CovidRecord, String> createStringColumn(String tableHeading, String propertyName) {
-        TableColumn<CovidRecord, String> countryColumn = new TableColumn<>(tableHeading);
-        countryColumn.setCellValueFactory(new PropertyValueFactory<>(propertyName));
-        return countryColumn;
-    }
-
-    private TableColumn<CovidRecord, LocalDate> createLocalDateColumn(String tableHeading, String propertyName) {
-        TableColumn<CovidRecord, LocalDate> column = new TableColumn<>(tableHeading);
-        column.setCellValueFactory(new PropertyValueFactory<>(propertyName));
-        return column;
-    }
-
-    private TableColumn<CovidRecord, Integer> createIntegerColumn(String tableHeading, String propertyName) {
-        TableColumn<CovidRecord, Integer> column = new TableColumn<>(tableHeading);
-        column.setCellValueFactory(new PropertyValueFactory<>(propertyName));
-        return column;
-    }
 }
