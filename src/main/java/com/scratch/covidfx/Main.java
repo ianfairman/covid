@@ -73,7 +73,7 @@ public class Main extends Application {
                 @Override
                 public void changed(ObservableValue<? extends String> ov, 
                     String oldValue, String newValue) {
-                  tableView.filterOnCountry(newValue);
+                  tableView.setFilterCountry(newValue);
                   if (newValue == null) {
                     filteredGraphItems.setPredicate(s -> true);
                     lineChart.setTitle("");

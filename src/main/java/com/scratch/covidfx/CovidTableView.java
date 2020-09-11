@@ -2,6 +2,8 @@ package com.scratch.covidfx;
 
 import java.time.LocalDate;
 import java.util.Comparator;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -11,6 +13,20 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class CovidTableView extends TableView<CovidRecord> {
   
+    private final StringProperty filterCountryProperty = new SimpleStringProperty(this, "filterCountry", null);
+    
+    public String getFilterCountry() {
+        return filterCountryProperty.get();
+    }
+    
+    public void setFilterCountry(String filterCountry) {
+        filterCountryProperty.set(filterCountry);
+    }
+    
+    public StringProperty filterCountryProperty() {
+        return filterCountryProperty;
+    }
+    
     private final FilteredList<CovidRecord> filteredTableItems;
     private final SortedList<CovidRecord> sortedTableItems;
     
@@ -19,20 +35,21 @@ public class CovidTableView extends TableView<CovidRecord> {
         this.filteredTableItems = new FilteredList<>(originalItems, s -> true);
         this.sortedTableItems = new SortedList<>(filteredTableItems, Comparator.reverseOrder());
         setItems(sortedTableItems);
+        
         getColumns().add(createLocalDateColumn("Date", "date"));
         getColumns().add(createStringColumn("Country", "country"));
         getColumns().add(createStringColumn("Continent", "continent"));
         getColumns().add(createIntegerColumn("New Cases", "cases"));
         getColumns().add(createIntegerColumn("Deaths", "deaths"));
         getColumns().add(createIntegerColumn("Population", "population"));
-    }
-
-    public void filterOnCountry(String countryFilter) {
-        if (countryFilter == null) {
-            filteredTableItems.setPredicate(s -> true);
-        } else {
-            filteredTableItems.setPredicate(r -> r.isCountry(countryFilter));
-        }
+        
+        filterCountryProperty.addListener((property, oldValue, newValue) -> {
+            if (newValue == null) {
+                filteredTableItems.setPredicate(s -> true);
+            } else {
+                filteredTableItems.setPredicate(r -> r.isCountry(newValue));
+            }
+        });
     }
 
     private TableColumn<CovidRecord, String> createStringColumn(String tableHeading, String propertyName) {
