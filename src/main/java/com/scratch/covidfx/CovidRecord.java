@@ -63,7 +63,7 @@ public class CovidRecord implements Comparable<CovidRecord> {
   @Override
   public int compareTo(CovidRecord o) {
     if (getCountry().compareTo(o.getCountry()) == 0) {
-      return getDate().compareTo(o.getDate());
+      return o.getDate().compareTo(getDate()); //
     }
     return getCountry().compareTo(o.getCountry());
   }

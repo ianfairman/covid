@@ -33,7 +33,7 @@ public class CovidTableView extends TableView<CovidRecord> {
     public CovidTableView(ObservableList<CovidRecord> originalItems) {
         super();
         this.filteredTableItems = new FilteredList<>(originalItems, s -> true);
-        this.sortedTableItems = new SortedList<>(filteredTableItems, Comparator.reverseOrder());
+        this.sortedTableItems = new SortedList<>(filteredTableItems, Comparator.naturalOrder());
         setItems(sortedTableItems);
         
         getColumns().add(createLocalDateColumn("Date", "date"));

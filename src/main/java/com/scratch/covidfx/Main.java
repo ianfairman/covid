@@ -38,7 +38,7 @@ public class Main extends Application {
 
         ObservableList<CovidRecord> items = FXCollections.observableArrayList();
         final FilteredList<CovidRecord> filteredGraphItems = new FilteredList<>(items, s -> true);
-        final SortedList<CovidRecord> sortedGraphItems = new SortedList<>(filteredGraphItems, Comparator.naturalOrder());
+        final SortedList<CovidRecord> sortedGraphItems = new SortedList<>(filteredGraphItems, Comparator.reverseOrder());
         final CovidTableView tableView = new CovidTableView(items);
 
         final CategoryAxis xAxis = new CategoryAxis();
