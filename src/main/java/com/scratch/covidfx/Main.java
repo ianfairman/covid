@@ -7,20 +7,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.Comparator;
 import java.util.List;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.scene.Scene;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -37,22 +30,10 @@ public class Main extends Application {
         primaryStage.setTitle("Covid-19 Stats");
 
         ObservableList<CovidRecord> items = FXCollections.observableArrayList();
-        final FilteredList<CovidRecord> filteredGraphItems = new FilteredList<>(items, s -> true);
-        final SortedList<CovidRecord> sortedGraphItems = new SortedList<>(filteredGraphItems, Comparator.reverseOrder());
         final CovidTableView tableView = new CovidTableView(items);
-
-        final CategoryAxis xAxis = new CategoryAxis();
-        final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Date");
-        yAxis.setLabel("People");
-        final LineChart<String,Number> lineChart = new LineChart<>(xAxis, yAxis);
+        final CovidLineChart lineChart = new CovidLineChart(items);
                 
-        lineChart.setTitle("New Cases by Date");
-        final XYChart.Series newCasesSeries = new XYChart.Series();
-        newCasesSeries.setName("New Cases");
-        
         ObservableList<String> countries = FXCollections.observableArrayList();
-        lineChart.getData().add(newCasesSeries);        
         try (InputStream resourceStream = Main.class.getResourceAsStream("/covid-19-20200902.csv");
                 Reader resourceReader = new InputStreamReader(resourceStream);
                 BufferedReader reader = new BufferedReader(resourceReader)) {
@@ -74,20 +55,7 @@ public class Main extends Application {
                 public void changed(ObservableValue<? extends String> ov, 
                     String oldValue, String newValue) {
                   tableView.setFilterCountry(newValue);
-                  if (newValue == null) {
-                    filteredGraphItems.setPredicate(s -> true);
-                    lineChart.setTitle("");
-                    newCasesSeries.getData().clear();
-                  } else {
-                    filteredGraphItems.setPredicate(r -> r.isCountryAndRecent(newValue));
-                    lineChart.setTitle(newValue);
-                    newCasesSeries.getData().clear();
-                    lineChart.setAnimated(true);
-                    sortedGraphItems.forEach(x -> {
-                      newCasesSeries.getData().add(new XYChart.Data(x.getDate().toString(), x.getCases()));
-                            });
-                    lineChart.setAnimated(false);
-                  }
+                  lineChart.setFilterCountry(newValue);
             }
         });
 
