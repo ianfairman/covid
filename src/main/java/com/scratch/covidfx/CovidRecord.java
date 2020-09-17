@@ -76,7 +76,7 @@ public class CovidRecord implements Comparable<CovidRecord> {
     return getCountry().equals(country);
   }
   
-  public boolean isCountryAndRecent(String country) {
-    return isCountry(country) && calculateAgeInDays() <= 31;
+  public boolean isRecent() {
+      return calculateAgeInDays() <= 31;
   }
 }

@@ -47,7 +47,7 @@ public class CovidLineChart extends LineChart<String,Number>{
               setTitle("");
               newCasesSeries.getData().clear();
             } else {
-              filteredItems.setPredicate(r -> r.isCountryAndRecent(newValue));
+              filteredItems.setPredicate(r -> r.isCountry(newValue) && r.isRecent());
               setTitle(newValue);
               newCasesSeries.getData().clear();
               setAnimated(true);
