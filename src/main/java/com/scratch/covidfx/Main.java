@@ -18,8 +18,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Covid-19 Stats");
 
-        final LocalCovidRecordFactory recordFactory =
-                new LocalCovidRecordFactory("/covid-19-20200918.csv");
+        final CovidRecordFactory recordFactory =
+                new RemoteCovidRecordFactory("https://opendata.ecdc.europa.eu/covid19/casedistribution/csv");
+//                new LocalCovidRecordFactory("/covid-19-20200918.csv");
         
         final CovidCountryListView countryList = new CovidCountryListView(recordFactory.getData());
         
