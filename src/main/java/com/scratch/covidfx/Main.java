@@ -29,9 +29,12 @@ public class Main extends Application {
         
         final CovidLineChart lineChart = new CovidLineChart(recordFactory.getData());
         lineChart.filterCountryProperty().bind(countryList.selectedCountryProperty());
-                
+        
+        final CovidSeriesToggleBox seriesToggleBox = new CovidSeriesToggleBox();
+        lineChart.seriesIdProperty().bind(seriesToggleBox.selectedSeriesProperty());
+        
         HBox hBox = new HBox();
-        hBox.getChildren().addAll(tableView, countryList);
+        hBox.getChildren().addAll(tableView, countryList, seriesToggleBox);
         VBox vBox = new VBox();
         vBox.getChildren().addAll(new CovidMenuBar(), hBox, lineChart);
 
