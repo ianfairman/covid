@@ -1,7 +1,9 @@
 package com.scratch.covidfx;
 
+import static com.scratch.covidfx.CovidSeriesType.NEW_CASES;
 import java.util.Comparator;
-import java.util.function.Function;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
@@ -28,28 +30,23 @@ public class CovidLineChart extends LineChart<String,Number>{
         return filterCountryProperty;
     }
     
-    private final StringProperty seriesIdProperty = new SimpleStringProperty(this, "seriesId", "newCases");
+    private final ObjectProperty<CovidSeriesType> seriesTypeProperty = new SimpleObjectProperty<>(this, "seriesType", NEW_CASES);
     
-    public String getSeriesId() {
-        return seriesIdProperty.get();
+    public final CovidSeriesType getSeriesType() {
+        return seriesTypeProperty.get();
     }
     
-    public void setSeriesId(String seriesId) {
-        seriesIdProperty.set(seriesId);
+    public void setSeriesType(CovidSeriesType seriesType) {
+        seriesTypeProperty.set(seriesType);
     }
     
-    public StringProperty seriesIdProperty() {
-        return seriesIdProperty;
+    public ObjectProperty<CovidSeriesType> seriesTypeProperty() {
+        return seriesTypeProperty;
     }
     
     private final FilteredList<CovidRecord> filteredItems;
     private final SortedList<CovidRecord> sortedItems;
     private final XYChart.Series series;
-    
-    private static final Function<CovidRecord, Integer> NEW_CASES_FN = r -> r.getCases();
-    private static final Function<CovidRecord, Integer> DEATHS_FN = r -> r.getDeaths();
-    
-    private Function<CovidRecord, Integer> extractorFn = NEW_CASES_FN;
     
     public CovidLineChart(ObservableList<CovidRecord> originalItems) {
         super(new CategoryAxis(), new NumberAxis());
@@ -59,26 +56,20 @@ public class CovidLineChart extends LineChart<String,Number>{
         getYAxis().setLabel("People");
         setTitle("Covid-19");
         series = new XYChart.Series();
-        series.setName("New Cases");
+        series.setName(getSeriesType().getLabelText());
         getData().add(series);
         filterCountryProperty.addListener((property, oldValue, newValue) -> {
             if (getFilterCountry() == null) {
               filteredItems.setPredicate(s -> true);
-              setTitle("");
+              setTitle("Covid-19");
               series.getData().clear();
             } else {
               filteredItems.setPredicate(r -> r.isCountry(getFilterCountry()) && r.isRecent());
               refreshGraph();
             }
         });
-        seriesIdProperty.addListener((property, oldValue, newValue) -> {
-            if (getSeriesId() == null || getSeriesId().equals("newCases")) {
-                extractorFn = NEW_CASES_FN;
-                series.setName("New Cases");
-            } else {
-                extractorFn = DEATHS_FN;
-                series.setName("Deaths");
-            }
+        seriesTypeProperty.addListener((property, oldValue, newValue) -> {
+            series.setName(getSeriesType().getLabelText());
             refreshGraph();
         });
     }
@@ -91,7 +82,7 @@ public class CovidLineChart extends LineChart<String,Number>{
         series.getData().clear();
         setAnimated(true);
         sortedItems.forEach(x -> {
-            series.getData().add(new XYChart.Data(x.getDate().toString(), extractorFn.apply(x)));
+            series.getData().add(new XYChart.Data(x.getDate().toString(),getSeriesType().extractSeriesData(x)));
         });
         setAnimated(false);
     }

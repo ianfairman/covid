@@ -1,7 +1,10 @@
 package com.scratch.covidfx;
 
-import javafx.beans.property.ReadOnlyStringProperty;
-import javafx.beans.property.ReadOnlyStringWrapper;
+import static com.scratch.covidfx.CovidSeriesType.DEATHS;
+import static com.scratch.covidfx.CovidSeriesType.NEW_CASES;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
@@ -10,17 +13,17 @@ public class CovidSeriesToggleBox extends VBox {
     private final ToggleGroup seriesToggleGroup;
     private final RadioButton newCasesButton;
     private final RadioButton deathsButton;
-    private final ReadOnlyStringWrapper selectedSeriesProperty = new ReadOnlyStringWrapper();
+    private final ReadOnlyObjectWrapper<CovidSeriesType> selectedSeriesProperty = new ReadOnlyObjectWrapper<>(this, "seriesType", NEW_CASES);
     
-    public String getSelectedSeries() {
+    public CovidSeriesType getSelectedSeries() {
         return selectedSeriesProperty.get();
     }
     
-    private void setSelectedSeries(String series) {
+    private void setSelectedSeries(CovidSeriesType series) {
         selectedSeriesProperty.set(series);
     }
     
-    public ReadOnlyStringProperty selectedSeriesProperty() {
+    public ReadOnlyObjectProperty selectedSeriesProperty() {
         return selectedSeriesProperty.getReadOnlyProperty();
     }
         
@@ -30,15 +33,16 @@ public class CovidSeriesToggleBox extends VBox {
         newCasesButton = new RadioButton("New Cases");
         newCasesButton.setToggleGroup(seriesToggleGroup);
         newCasesButton.setSelected(true);
-        newCasesButton.setUserData("newCases");
+        newCasesButton.setUserData(NEW_CASES);
         
         deathsButton = new RadioButton("Deaths");
         deathsButton.setToggleGroup(seriesToggleGroup);
-        deathsButton.setUserData("deaths");
+        deathsButton.setUserData(DEATHS);
         
-        getChildren().addAll(newCasesButton, deathsButton);
+        Label titleLabel = new Label("Data type:");
+        getChildren().addAll(titleLabel, newCasesButton, deathsButton);
 
         seriesToggleGroup.selectedToggleProperty()
-                .addListener(x -> setSelectedSeries(seriesToggleGroup.getSelectedToggle().getUserData().toString()));
+                .addListener(x -> setSelectedSeries((CovidSeriesType) seriesToggleGroup.getSelectedToggle().getUserData()));
     }
 }

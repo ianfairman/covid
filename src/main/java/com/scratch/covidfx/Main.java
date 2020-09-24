@@ -31,7 +31,7 @@ public class Main extends Application {
         lineChart.filterCountryProperty().bind(countryList.selectedCountryProperty());
         
         final CovidSeriesToggleBox seriesToggleBox = new CovidSeriesToggleBox();
-        lineChart.seriesIdProperty().bind(seriesToggleBox.selectedSeriesProperty());
+        lineChart.seriesTypeProperty().bind(seriesToggleBox.selectedSeriesProperty());
         
         HBox hBox = new HBox();
         hBox.getChildren().addAll(tableView, countryList, seriesToggleBox);
