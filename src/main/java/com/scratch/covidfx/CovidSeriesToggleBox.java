@@ -28,6 +28,7 @@ public class CovidSeriesToggleBox extends VBox {
     }
         
     public CovidSeriesToggleBox() {
+        super(8);
         seriesToggleGroup = new ToggleGroup();
         
         newCasesButton = new RadioButton("New Cases");

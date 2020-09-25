@@ -18,7 +18,7 @@ public class CovidLineChart extends LineChart<String,Number>{
 
     private final StringProperty filterCountryProperty = new SimpleStringProperty(this, "filterCountry", null);
     
-    public String getFilterCountry() {
+    public final String getFilterCountry() {
         return filterCountryProperty.get();
     }
     
@@ -54,36 +54,39 @@ public class CovidLineChart extends LineChart<String,Number>{
         this.sortedItems = new SortedList<>(filteredItems, Comparator.reverseOrder());
         getXAxis().setLabel("Date");
         getYAxis().setLabel("People");
-        setTitle("Covid-19");
+        setTitle(getSeriesType().getLabelText());
         series = new XYChart.Series();
-        series.setName(getSeriesType().getLabelText());
-        getData().add(series);
+        series.setName(getFilterCountry() == null ? "" : getFilterCountry());
         filterCountryProperty.addListener((property, oldValue, newValue) -> {
+            getData().clear();
             if (getFilterCountry() == null) {
               filteredItems.setPredicate(s -> true);
-              setTitle("Covid-19");
-              series.getData().clear();
+              setTitle(getSeriesType().getLabelText());
             } else {
+              series.setName(getFilterCountry());
               filteredItems.setPredicate(r -> r.isCountry(getFilterCountry()) && r.isRecent());
               refreshGraph();
             }
         });
         seriesTypeProperty.addListener((property, oldValue, newValue) -> {
-            series.setName(getSeriesType().getLabelText());
+            series.setName(getFilterCountry());
             refreshGraph();
         });
     }
 
     private void refreshGraph() {
+        getData().clear();
         if (getFilterCountry() == null) {
             return;
         }
-        setTitle(getFilterCountry());
-        series.getData().clear();
+        setTitle(getSeriesType().getLabelText());
         setAnimated(true);
+        series.getData().clear();
         sortedItems.forEach(x -> {
-            series.getData().add(new XYChart.Data(x.getDate().toString(),getSeriesType().extractSeriesData(x)));
+            XYChart.Data datum = new XYChart.Data(x.getDate().toString(), getSeriesType().extractSeriesData(x));
+            series.getData().add(datum);
         });
+        getData().add(series);
         setAnimated(false);
     }
 }

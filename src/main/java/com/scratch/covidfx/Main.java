@@ -33,9 +33,9 @@ public class Main extends Application {
         final CovidSeriesToggleBox seriesToggleBox = new CovidSeriesToggleBox();
         lineChart.seriesTypeProperty().bind(seriesToggleBox.selectedSeriesProperty());
         
-        HBox hBox = new HBox();
+        HBox hBox = new HBox(8);
         hBox.getChildren().addAll(tableView, countryList, seriesToggleBox);
-        VBox vBox = new VBox();
+        VBox vBox = new VBox(8);
         vBox.getChildren().addAll(new CovidMenuBar(), hBox, lineChart);
 
         Scene scene = new Scene(vBox, 960, 600);
