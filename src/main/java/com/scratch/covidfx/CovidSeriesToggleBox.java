@@ -1,6 +1,5 @@
 package com.scratch.covidfx;
 
-import static com.scratch.covidfx.CovidSeriesType.DEATHS;
 import static com.scratch.covidfx.CovidSeriesType.NEW_CASES;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -8,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
+import static com.scratch.covidfx.CovidSeriesType.NEW_DEATHS;
 
 public class CovidSeriesToggleBox extends VBox {
     private final ToggleGroup seriesToggleGroup;
@@ -36,9 +36,9 @@ public class CovidSeriesToggleBox extends VBox {
         newCasesButton.setSelected(true);
         newCasesButton.setUserData(NEW_CASES);
         
-        deathsButton = new RadioButton("Deaths");
+        deathsButton = new RadioButton("New Deaths");
         deathsButton.setToggleGroup(seriesToggleGroup);
-        deathsButton.setUserData(DEATHS);
+        deathsButton.setUserData(NEW_DEATHS);
         
         Label titleLabel = new Label("Data type:");
         getChildren().addAll(titleLabel, newCasesButton, deathsButton);

@@ -22,9 +22,10 @@ public class Main extends Application {
                 new RemoteCovidRecordFactory("https://opendata.ecdc.europa.eu/covid19/casedistribution/csv");
 //                new LocalCovidRecordFactory("/covid-19-20200918.csv");
         
+        final CumulativeCovidRecordFactory cumulativeRecordFactory = new CumulativeCovidRecordFactory(recordFactory.getData());
         final CovidCountryListView countryList = new CovidCountryListView(recordFactory.getData());
         
-        final CovidTableView tableView = new CovidTableView(recordFactory.getData());
+        final CovidTableView tableView = new CovidTableView(cumulativeRecordFactory.getData());
         tableView.filterCountryProperty().bind(countryList.selectedCountryProperty());
         
         final CovidLineChart lineChart = new CovidLineChart(recordFactory.getData());
@@ -38,7 +39,7 @@ public class Main extends Application {
         VBox vBox = new VBox(8);
         vBox.getChildren().addAll(new CovidMenuBar(), hBox, lineChart);
 
-        Scene scene = new Scene(vBox, 960, 600);
+        Scene scene = new Scene(vBox, 1040, 600);
 
         primaryStage.setScene(scene);
         primaryStage.show();

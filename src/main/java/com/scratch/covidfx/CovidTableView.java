@@ -11,7 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class CovidTableView extends TableView<CovidRecord> {
+public class CovidTableView extends TableView<CumulativeCovidRecord> {
   
     private final StringProperty filterCountryProperty = new SimpleStringProperty(this, "filterCountry", null);
     
@@ -27,10 +27,10 @@ public class CovidTableView extends TableView<CovidRecord> {
         return filterCountryProperty;
     }
     
-    private final FilteredList<CovidRecord> filteredTableItems;
-    private final SortedList<CovidRecord> sortedTableItems;
+    private final FilteredList<CumulativeCovidRecord> filteredTableItems;
+    private final SortedList<CumulativeCovidRecord> sortedTableItems;
     
-    public CovidTableView(ObservableList<CovidRecord> originalItems) {
+    public CovidTableView(ObservableList<CumulativeCovidRecord> originalItems) {
         super();
         this.filteredTableItems = new FilteredList<>(originalItems, s -> true);
         this.sortedTableItems = new SortedList<>(filteredTableItems, Comparator.naturalOrder());
@@ -40,7 +40,9 @@ public class CovidTableView extends TableView<CovidRecord> {
         getColumns().add(createStringColumn("Country", "country"));
         getColumns().add(createStringColumn("Continent", "continent"));
         getColumns().add(createIntegerColumn("New Cases", "cases"));
-        getColumns().add(createIntegerColumn("Deaths", "deaths"));
+        getColumns().add(createIntegerColumn("New Deaths", "deaths"));
+        getColumns().add(createIntegerColumn("Total Cases", "cumulativeCases"));
+        getColumns().add(createIntegerColumn("Total Deaths", "cumulativeDeaths"));
         getColumns().add(createIntegerColumn("Population", "population"));
         
         filterCountryProperty.addListener((property, oldValue, newValue) -> {
@@ -52,20 +54,20 @@ public class CovidTableView extends TableView<CovidRecord> {
         });
     }
 
-    private TableColumn<CovidRecord, String> createStringColumn(String tableHeading, String propertyName) {
-        TableColumn<CovidRecord, String> countryColumn = new TableColumn<>(tableHeading);
+    private TableColumn<CumulativeCovidRecord, String> createStringColumn(String tableHeading, String propertyName) {
+        TableColumn<CumulativeCovidRecord, String> countryColumn = new TableColumn<>(tableHeading);
         countryColumn.setCellValueFactory(new PropertyValueFactory<>(propertyName));
         return countryColumn;
     }
 
-    private TableColumn<CovidRecord, LocalDate> createLocalDateColumn(String tableHeading, String propertyName) {
-        TableColumn<CovidRecord, LocalDate> column = new TableColumn<>(tableHeading);
+    private TableColumn<CumulativeCovidRecord, LocalDate> createLocalDateColumn(String tableHeading, String propertyName) {
+        TableColumn<CumulativeCovidRecord, LocalDate> column = new TableColumn<>(tableHeading);
         column.setCellValueFactory(new PropertyValueFactory<>(propertyName));
         return column;
     }
 
-    private TableColumn<CovidRecord, Integer> createIntegerColumn(String tableHeading, String propertyName) {
-        TableColumn<CovidRecord, Integer> column = new TableColumn<>(tableHeading);
+    private TableColumn<CumulativeCovidRecord, Integer> createIntegerColumn(String tableHeading, String propertyName) {
+        TableColumn<CumulativeCovidRecord, Integer> column = new TableColumn<>(tableHeading);
         column.setCellValueFactory(new PropertyValueFactory<>(propertyName));
         return column;
     }

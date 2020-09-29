@@ -4,7 +4,7 @@ import java.util.function.Function;
 
 public enum CovidSeriesType {
     NEW_CASES("New Cases", r -> r.getCases()),
-    DEATHS("Deaths", r -> r.getDeaths());
+    NEW_DEATHS("New Deaths", r -> r.getDeaths());
     
     private final String labelText;
     private final Function<CovidRecord, Integer> extractorFunction;
