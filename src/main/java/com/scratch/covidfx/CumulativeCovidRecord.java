@@ -6,13 +6,18 @@ public class CumulativeCovidRecord implements Comparable<CumulativeCovidRecord> 
 
     private final int cumulativeDeaths;
     private final int cumulativeCases;
+    private final int sevenAverageDeaths;
+    private final int sevenDayAverageCases;
     
     private final CovidRecord record;
 
-    public CumulativeCovidRecord(CovidRecord record, int cumulativeCases, int cumulativeDeaths) {
+    public CumulativeCovidRecord(CovidRecord record, int cumulativeCases, int cumulativeDeaths,
+                                    int sevenDayAverageCases, int sevenDayAverageDeaths) {
         this.record = record;
         this.cumulativeCases = cumulativeCases;
         this.cumulativeDeaths = cumulativeDeaths;
+        this.sevenDayAverageCases = sevenDayAverageCases;
+        this.sevenAverageDeaths = sevenDayAverageDeaths;
     }
 
     public int getCumulativeDeaths() {
@@ -21,6 +26,14 @@ public class CumulativeCovidRecord implements Comparable<CumulativeCovidRecord> 
 
     public int getCumulativeCases() {
         return cumulativeCases;
+    }
+
+    public int getSevenDayAverageDeaths() {
+        return sevenAverageDeaths;
+    }
+
+    public int getSevenDayAverageCases() {
+        return sevenDayAverageCases;
     }
 
     public LocalDate getDate() {

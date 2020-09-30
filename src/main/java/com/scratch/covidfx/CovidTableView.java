@@ -38,12 +38,18 @@ public class CovidTableView extends TableView<CumulativeCovidRecord> {
         
         getColumns().add(createLocalDateColumn("Date", "date"));
         getColumns().add(createStringColumn("Country", "country"));
-        getColumns().add(createStringColumn("Continent", "continent"));
-        getColumns().add(createIntegerColumn("New Cases", "cases"));
-        getColumns().add(createIntegerColumn("New Deaths", "deaths"));
-        getColumns().add(createIntegerColumn("Total Cases", "cumulativeCases"));
-        getColumns().add(createIntegerColumn("Total Deaths", "cumulativeDeaths"));
-        getColumns().add(createIntegerColumn("Population", "population"));
+//        getColumns().add(createStringColumn("Continent", "continent"));
+        TableColumn<CumulativeCovidRecord, String> casesColumn = new TableColumn<>("Cases");
+        casesColumn.getColumns().add(createIntegerColumn("New", "cases"));
+        casesColumn.getColumns().add(createIntegerColumn("7-Day Avg.", "sevenDayAverageCases"));
+        casesColumn.getColumns().add(createIntegerColumn("Total", "cumulativeCases"));
+        getColumns().add(casesColumn);
+        TableColumn<CumulativeCovidRecord, String> deathsColumn = new TableColumn<>("Deaths");
+        deathsColumn.getColumns().add(createIntegerColumn("New", "deaths"));
+        deathsColumn.getColumns().add(createIntegerColumn("7-Day Avg.", "sevenDayAverageDeaths"));
+        deathsColumn.getColumns().add(createIntegerColumn("Total", "cumulativeDeaths"));
+        getColumns().add(deathsColumn);
+//        getColumns().add(createIntegerColumn("Population", "population"));
         
         filterCountryProperty.addListener((property, oldValue, newValue) -> {
             if (newValue == null) {
@@ -55,9 +61,9 @@ public class CovidTableView extends TableView<CumulativeCovidRecord> {
     }
 
     private TableColumn<CumulativeCovidRecord, String> createStringColumn(String tableHeading, String propertyName) {
-        TableColumn<CumulativeCovidRecord, String> countryColumn = new TableColumn<>(tableHeading);
-        countryColumn.setCellValueFactory(new PropertyValueFactory<>(propertyName));
-        return countryColumn;
+        TableColumn<CumulativeCovidRecord, String> column = new TableColumn<>(tableHeading);
+        column.setCellValueFactory(new PropertyValueFactory<>(propertyName));
+        return column;
     }
 
     private TableColumn<CumulativeCovidRecord, LocalDate> createLocalDateColumn(String tableHeading, String propertyName) {
