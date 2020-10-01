@@ -28,7 +28,7 @@ public class Main extends Application {
         final CovidTableView tableView = new CovidTableView(cumulativeRecordFactory.getData());
         tableView.filterCountryProperty().bind(countryList.selectedCountryProperty());
         
-        final CovidLineChart lineChart = new CovidLineChart(recordFactory.getData());
+        final CovidLineChart lineChart = new CovidLineChart(cumulativeRecordFactory.getData());
         lineChart.filterCountryProperty().bind(countryList.selectedCountryProperty());
         
         final CovidSeriesToggleBox seriesToggleBox = new CovidSeriesToggleBox();

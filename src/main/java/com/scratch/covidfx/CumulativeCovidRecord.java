@@ -68,4 +68,8 @@ public class CumulativeCovidRecord implements Comparable<CumulativeCovidRecord> 
     public boolean isCountry(String country) {
         return record.isCountry(country);
     }
+
+    public boolean isRecent() {
+        return record.isRecent();
+    }
 }

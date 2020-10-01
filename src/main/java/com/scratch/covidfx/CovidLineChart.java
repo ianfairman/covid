@@ -44,11 +44,11 @@ public class CovidLineChart extends LineChart<String,Number>{
         return seriesTypeProperty;
     }
     
-    private final FilteredList<CovidRecord> filteredItems;
-    private final SortedList<CovidRecord> sortedItems;
+    private final FilteredList<CumulativeCovidRecord> filteredItems;
+    private final SortedList<CumulativeCovidRecord> sortedItems;
     private final XYChart.Series series;
     
-    public CovidLineChart(ObservableList<CovidRecord> originalItems) {
+    public CovidLineChart(ObservableList<CumulativeCovidRecord> originalItems) {
         super(new CategoryAxis(), new NumberAxis());
         this.filteredItems = new FilteredList<>(originalItems, s -> true);
         this.sortedItems = new SortedList<>(filteredItems, Comparator.reverseOrder());

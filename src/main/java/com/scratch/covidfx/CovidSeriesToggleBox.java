@@ -7,12 +7,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
-import static com.scratch.covidfx.CovidSeriesType.NEW_DEATHS;
 
 public class CovidSeriesToggleBox extends VBox {
     private final ToggleGroup seriesToggleGroup;
-    private final RadioButton newCasesButton;
-    private final RadioButton deathsButton;
     private final ReadOnlyObjectWrapper<CovidSeriesType> selectedSeriesProperty = new ReadOnlyObjectWrapper<>(this, "seriesType", NEW_CASES);
     
     public CovidSeriesType getSelectedSeries() {
@@ -30,19 +27,20 @@ public class CovidSeriesToggleBox extends VBox {
     public CovidSeriesToggleBox() {
         super(8);
         seriesToggleGroup = new ToggleGroup();
-        
-        newCasesButton = new RadioButton("New Cases");
-        newCasesButton.setToggleGroup(seriesToggleGroup);
-        newCasesButton.setSelected(true);
-        newCasesButton.setUserData(NEW_CASES);
-        
-        deathsButton = new RadioButton("New Deaths");
-        deathsButton.setToggleGroup(seriesToggleGroup);
-        deathsButton.setUserData(NEW_DEATHS);
-        
+        boolean firstRun = true;
+         
         Label titleLabel = new Label("Data type:");
-        getChildren().addAll(titleLabel, newCasesButton, deathsButton);
+        getChildren().add(titleLabel);
 
+        for (CovidSeriesType type: CovidSeriesType.values()) {
+            RadioButton button = new RadioButton(type.getLabelText());
+            button.setToggleGroup(seriesToggleGroup);
+            button.setSelected(firstRun);
+            firstRun = false;
+            button.setUserData(type);
+            getChildren().add(button);
+        }
+        
         seriesToggleGroup.selectedToggleProperty()
                 .addListener(x -> setSelectedSeries((CovidSeriesType) seriesToggleGroup.getSelectedToggle().getUserData()));
     }
