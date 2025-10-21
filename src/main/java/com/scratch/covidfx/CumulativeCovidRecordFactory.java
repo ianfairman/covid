@@ -22,8 +22,8 @@ public class CumulativeCovidRecordFactory {
             if (record.isCountry(currentCountry)) {
                 cumulativeDeaths += record.getDeaths();
                 cumulativeCases += record.getCases();
-                deathsAverage.register(record.getDeaths());
-                casesAverage.register(record.getCases());
+                deathsAverage.registerNewValue(record.getDeaths());
+                casesAverage.registerNewValue(record.getCases());
             } else {
                 cumulativeDeaths = record.getDeaths();
                 cumulativeCases = record.getCases();

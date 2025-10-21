@@ -1,5 +1,6 @@
 package com.scratch.covidfx;
 
+import com.scratch.covidfx.menu.CovidMenuBar;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
@@ -19,10 +20,11 @@ public class Main extends Application {
         primaryStage.setTitle("Covid-19 Stats");
 
         final CovidRecordFactory recordFactory =
-                new RemoteCovidRecordFactory("https://opendata.ecdc.europa.eu/covid19/casedistribution/csv");
-//                new LocalCovidRecordFactory("/covid-19-20200918.csv");
+                new UrlCovidRecordFactory("https://opendata.ecdc.europa.eu/covid19/casedistribution/csv");
+//                new ResourceCovidRecordFactory("/covid-19-20200918.csv");
         
-        final CumulativeCovidRecordFactory cumulativeRecordFactory = new CumulativeCovidRecordFactory(recordFactory.getData());
+        final CumulativeCovidRecordFactory cumulativeRecordFactory =
+                new CumulativeCovidRecordFactory(recordFactory.getData());
         final CovidCountryListView countryList = new CovidCountryListView(recordFactory.getData());
         
         final CovidTableView tableView = new CovidTableView(cumulativeRecordFactory.getData());
@@ -34,12 +36,12 @@ public class Main extends Application {
         final CovidSeriesToggleBox seriesToggleBox = new CovidSeriesToggleBox();
         lineChart.seriesTypeProperty().bind(seriesToggleBox.selectedSeriesProperty());
         
-        HBox hBox = new HBox(8);
-        hBox.getChildren().addAll(tableView, countryList, seriesToggleBox);
-        VBox vBox = new VBox(8);
-        vBox.getChildren().addAll(new CovidMenuBar(), hBox, lineChart);
+        HBox childBox = new HBox(8);
+        childBox.getChildren().addAll(tableView, countryList, seriesToggleBox);
+        VBox parentBox = new VBox(8);
+        parentBox.getChildren().addAll(new CovidMenuBar(), childBox, lineChart);
 
-        Scene scene = new Scene(vBox, 1040, 600);
+        Scene scene = new Scene(parentBox, 1040, 600);
 
         primaryStage.setScene(scene);
         primaryStage.show();

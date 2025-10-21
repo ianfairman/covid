@@ -6,11 +6,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import static java.util.Objects.requireNonNull;
 
-public class RemoteCovidRecordFactory extends CovidRecordFactory {
+public class UrlCovidRecordFactory extends CovidRecordFactory {
 
     private final URL url;
     
-    public RemoteCovidRecordFactory(String urlString) {
+    public UrlCovidRecordFactory(String urlString) {
         
         try {
             this.url = new URL(requireNonNull(urlString));

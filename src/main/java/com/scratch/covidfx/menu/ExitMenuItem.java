@@ -1,4 +1,4 @@
-package com.scratch.covidfx;
+package com.scratch.covidfx.menu;
 
 import javafx.application.Platform;
 import javafx.scene.control.MenuItem;

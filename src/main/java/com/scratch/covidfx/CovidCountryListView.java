@@ -13,10 +13,7 @@ import javafx.scene.control.ListView;
 public class CovidCountryListView extends ListView<String> {
 
     public CovidCountryListView(ObservableList<CovidRecord> records) {
-        ObservableList<String> countries = FXCollections.observableArrayList();
-        records.stream().map(r -> r.getCountry())
-                  .distinct().forEach(c -> countries.add(c));
-        setItems(countries);
+        setItems(extractDistinctCountriesFrom(records));
         getSelectionModel().selectedItemProperty().addListener(
             new ChangeListener<String>() {
                 @Override
@@ -25,6 +22,13 @@ public class CovidCountryListView extends ListView<String> {
                   setSelectedCountry(newValue);
             }
         });
+    }
+
+    private ObservableList<String> extractDistinctCountriesFrom(ObservableList<CovidRecord> records) {
+        ObservableList<String> countries = FXCollections.observableArrayList();
+        records.stream().map(r -> r.getCountry())
+                .distinct().forEach(c -> countries.add(c));
+        return countries;
     }
     
     private final ReadOnlyStringWrapper selectedCountryProperty = new ReadOnlyStringWrapper(this, "selectedCountry", null);

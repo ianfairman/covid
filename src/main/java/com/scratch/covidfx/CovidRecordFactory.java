@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.scratch.covidfx;
 
 import com.opencsv.CSVReader;
@@ -20,7 +15,7 @@ import javafx.collections.ObservableList;
 
 /**
  *
- * @author Ian Fairman (ian@nextmovesoftware.com)
+ * @author Ian Fairman <ian.fairman@gmail.com>
  */
 public abstract class CovidRecordFactory {
     
@@ -40,7 +35,7 @@ public abstract class CovidRecordFactory {
           List<String[]> records = csvReader.readAll();
           records.stream().map(CovidRecord::new).forEach(r -> items.add(r));
           setValid(true);
-        } catch (IOException | CsvException ex) {
+        } catch (IOException | CsvException _) {
           items.clear();
           setValid(false);
         }

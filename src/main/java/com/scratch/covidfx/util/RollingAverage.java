@@ -20,7 +20,7 @@ public class RollingAverage {
         return total / windowSize;
     }
     
-    public void register(int newValue) {
+    public void registerNewValue (int newValue) {
         total = total + newValue - priorValues[index];
         priorValues[index] = newValue;
         incrementIndex();
