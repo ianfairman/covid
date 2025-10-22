@@ -4,6 +4,11 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import static java.util.Objects.requireNonNull;
 
+/**
+ * Wraps one line of the input CSV (but not the header.
+ * 
+ * @author Ian Fairman <ian.fairman@gmail.com>
+ */
 public class CovidRecord implements Comparable<CovidRecord> {
 
   private final String[] fields;
@@ -68,7 +73,7 @@ public class CovidRecord implements Comparable<CovidRecord> {
     return getCountry().compareTo(o.getCountry());
   }
   
-  public long calculateAgeInDays() {
+  private long calculateAgeInDays() {
       return ChronoUnit.DAYS.between(getDate(), LocalDate.now());
   }
   
@@ -76,6 +81,11 @@ public class CovidRecord implements Comparable<CovidRecord> {
     return getCountry().equals(country);
   }
   
+  /**
+   * Only the most recent records are displayed.
+   * 
+   * @return 
+   */
   public boolean isRecent() {
       return calculateAgeInDays() <= 31;
   }
