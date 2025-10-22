@@ -8,6 +8,7 @@ import javafx.collections.transformation.SortedList;
 
 public class CumulativeCovidRecordFactory {
     
+    private static final int WINDOW_SIZE = 7;
     private final SortedList<CumulativeCovidRecord> data;
 
     public CumulativeCovidRecordFactory(ObservableList<CovidRecord> records) {
@@ -36,8 +37,6 @@ public class CumulativeCovidRecordFactory {
         }
         data = new SortedList<>(cumulativeCovidRecords, Comparator.naturalOrder());
     }
-
-    private static final int WINDOW_SIZE = 7;
 
     public SortedList<CumulativeCovidRecord> getData() {
         return data;

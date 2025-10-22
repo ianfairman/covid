@@ -38,7 +38,7 @@ public class CovidTableView extends TableView<CumulativeCovidRecord> {
         
         getColumns().add(createLocalDateColumn("Date", "date"));
         getColumns().add(createStringColumn("Country", "country"));
-//        getColumns().add(createStringColumn("Continent", "continent"));
+        getColumns().add(createStringColumn("Continent", "continent"));
         TableColumn<CumulativeCovidRecord, String> casesColumn = new TableColumn<>("Cases");
         casesColumn.getColumns().add(createIntegerColumn("New", "cases"));
         casesColumn.getColumns().add(createIntegerColumn("7-Day Avg.", "sevenDayAverageCases"));

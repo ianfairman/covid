@@ -38,7 +38,7 @@ public class Main extends Application {
         
         HBox childBox = new HBox(8);
         childBox.getChildren().addAll(tableView, countryList, seriesToggleBox);
-        VBox parentBox = new VBox(8);
+        VBox parentBox = new VBox(0);
         parentBox.getChildren().addAll(new CovidMenuBar(), childBox, lineChart);
 
         Scene scene = new Scene(parentBox, 1040, 600);
