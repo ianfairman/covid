@@ -70,5 +70,11 @@
             <version>25</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>25</version>
+            <classifier>win</classifier>
+        </dependency>
     </dependencies>
 </project>

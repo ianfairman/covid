@@ -1,7 +1,9 @@
 package com.scratch.covidfx;
 
 import com.scratch.covidfx.menu.CovidMenuBar;
+import java.io.IOException;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -36,10 +38,17 @@ public class Main extends Application {
         final CovidSeriesToggleBox seriesToggleBox = new CovidSeriesToggleBox();
         lineChart.seriesTypeProperty().bind(seriesToggleBox.selectedSeriesProperty());
         
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
+        CovidMenuBar menuBar;
+        try {
+            menuBar = loader.load();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
         HBox childBox = new HBox(8);
         childBox.getChildren().addAll(tableView, countryList, seriesToggleBox);
         VBox parentBox = new VBox(0);
-        parentBox.getChildren().addAll(new CovidMenuBar(), childBox, lineChart);
+        parentBox.getChildren().addAll(menuBar, childBox, lineChart);
 
         Scene scene = new Scene(parentBox, 1040, 600);
 
