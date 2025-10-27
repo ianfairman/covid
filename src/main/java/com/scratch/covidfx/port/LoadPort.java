@@ -15,12 +15,13 @@
  */
 package com.scratch.covidfx.port;
 
+import com.scratch.covidfx.domain.CovidRecord;
+
 /**
  *
  * @author Ian Fairman <ian.fairman@gmail.com>
  */
 public interface LoadPort {
     
-    void load(Record record);
-    
+    void load(CovidRecord record);
 }

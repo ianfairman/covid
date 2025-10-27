@@ -16,8 +16,11 @@
 package com.scratch.covidfx.port.impl;
 
 import com.scratch.covidfx.domain.Country;
+import com.scratch.covidfx.domain.CovidRecord;
+import com.scratch.covidfx.domain.Stats;
 import com.scratch.covidfx.port.LoadPort;
 import com.scratch.covidfx.port.QueryPort;
+import java.time.LocalDate;
 import static java.util.Collections.emptyList;
 import java.util.List;
 
@@ -27,14 +30,16 @@ import java.util.List;
  */
 public class PortImpl implements LoadPort, QueryPort{
 
+    private List<CovidRecord> records = emptyList();
+    
     @Override
-    public void load(Record record) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void load(CovidRecord record) {
+        records = List.of(new CovidRecord(new Country("Vanatu"), LocalDate.now(), new Stats(0, 0)));
     }
 
     @Override
     public List<Country> getCountries() {
-        return emptyList();
+        return records.stream().map(CovidRecord::country).toList();
     }
 
     @Override

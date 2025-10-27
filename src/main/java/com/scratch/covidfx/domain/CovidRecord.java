@@ -21,6 +21,6 @@ import java.time.LocalDate;
  *
  * @author Ian Fairman <ian.fairman@gmail.com>
  */
-public record Record(Country country, LocalDate date, Stats stats) {
+public record CovidRecord(Country country, LocalDate date, Stats stats) {
     
 }

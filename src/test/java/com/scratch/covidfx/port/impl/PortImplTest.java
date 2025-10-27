@@ -15,6 +15,10 @@
  */
 package com.scratch.covidfx.port.impl;
 
+import com.scratch.covidfx.domain.Country;
+import com.scratch.covidfx.domain.CovidRecord;
+import com.scratch.covidfx.domain.Stats;
+import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,5 +41,18 @@ public class PortImplTest {
         
         // Then
         assertEquals(0, countries.size());
+    }
+    
+    @Test
+    void shouldReturnOneCountryIfOneRecordIsLoaded() {
+        // Given
+        var port = new PortImpl();
+        port.load(new CovidRecord(new Country("Vanatu"), LocalDate.now(), new Stats(0, 0)));
+        
+        // When
+        var countries = port.getCountries();
+        
+        // Then
+        assertEquals(1, countries.size());
     }
 }
