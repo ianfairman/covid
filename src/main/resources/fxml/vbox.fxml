@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Scene?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -15,55 +14,54 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<Scene xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
-   <root>
-      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="484.0" prefWidth="927.0">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="484.0" prefWidth="927.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <MenuBar>
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <MenuBar>
-              <menus>
-                <Menu mnemonicParsing="false" text="File">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="Close" />
-                  </items>
-                </Menu>
-              </menus>
-            </MenuBar>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <TableView prefHeight="93.0" prefWidth="525.0">
-                    <columns>
-                        <TableColumn prefWidth="-1.0" text="Date" />
-                        <TableColumn prefWidth="75.0" text="Country" />
-                        <TableColumn prefWidth="75.0" text="Continent" />
-                        <TableColumn prefWidth="75.0" text="Cases">
-                           <columns>
-                              <TableColumn prefWidth="75.0" text="New" />
-                              <TableColumn prefWidth="75.0" text="7-Day Avg." />
-                              <TableColumn prefWidth="75.0" text="Total" />
-                           </columns>
-                        </TableColumn>
-                        <TableColumn prefWidth="75.0" text="Deaths">
-                           <columns>
-                              <TableColumn prefWidth="75.0" text="New" />
-                              <TableColumn prefWidth="75.0" text="7-Day Avg." />
-                              <TableColumn prefWidth="75.0" text="Total" />
-                           </columns>
-                        </TableColumn>
-                    </columns>
-                  </TableView>
-                  <ListView prefHeight="200.0" prefWidth="200.0" />
-                  <RadioButton mnemonicParsing="false" text="RadioButton" />
-               </children>
-            </HBox>
-            <LineChart prefHeight="372.0" prefWidth="600.0">
-              <xAxis>
-                <CategoryAxis side="BOTTOM" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis side="LEFT" />
-              </yAxis>
-            </LineChart>
+            <TableView prefHeight="93.0" prefWidth="698.0">
+              <columns>
+                  <TableColumn prefWidth="54.399993896484375" text="Country">
+                     <columns>
+                        <TableColumn prefWidth="40.00003206729889" text="Date" />
+                     </columns>
+                  </TableColumn>
+                  <TableColumn prefWidth="70.39998626708984" text="Continent" />
+                  <TableColumn prefWidth="286.4000244140625" text="Cases">
+                     <columns>
+                        <TableColumn prefWidth="75.0" text="New" />
+                        <TableColumn prefWidth="75.0" text="7-Day Avg." />
+                        <TableColumn prefWidth="75.0" text="Total" />
+                     </columns>
+                  </TableColumn>
+                  <TableColumn prefWidth="75.0" text="Deaths">
+                     <columns>
+                        <TableColumn prefWidth="75.0" text="New" />
+                        <TableColumn prefWidth="75.0" text="7-Day Avg." />
+                        <TableColumn prefWidth="75.0" text="Total" />
+                     </columns>
+                  </TableColumn>
+              </columns>
+            </TableView>
+            <ListView prefHeight="200.0" prefWidth="200.0" />
+            <RadioButton mnemonicParsing="false" text="RadioButton" />
          </children>
-      </VBox>
-   </root>
-</Scene>
+      </HBox>
+      <LineChart prefHeight="372.0" prefWidth="600.0">
+        <xAxis>
+          <CategoryAxis label="Date" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </LineChart>
+   </children>
+</VBox>
