@@ -34,7 +34,7 @@ public class PortImpl implements LoadPort, QueryPort{
     
     @Override
     public void load(CovidRecord record) {
-        records = List.of(new CovidRecord(new Country("Vanatu"), LocalDate.now(), new Stats(0, 0)));
+        records = List.of(record);
     }
 
     @Override

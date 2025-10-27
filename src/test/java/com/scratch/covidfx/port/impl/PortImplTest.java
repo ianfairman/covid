@@ -55,4 +55,17 @@ public class PortImplTest {
         // Then
         assertEquals(1, countries.size());
     }
+    
+    @Test
+    void shouldReturnCountryIfOneRecordIsLoaded() {
+        // Given
+        var port = new PortImpl();
+        port.load(new CovidRecord(new Country("Fiji"), LocalDate.now(), new Stats(0, 0)));
+        
+        // When
+        var countries = port.getCountries();
+        
+        // Then
+        assertEquals(new Country("Fiji"), countries.getFirst());
+    }
 }
