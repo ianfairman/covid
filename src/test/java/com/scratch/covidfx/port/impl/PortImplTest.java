@@ -19,9 +19,7 @@ import com.scratch.covidfx.domain.Country;
 import com.scratch.covidfx.domain.CovidRecord;
 import com.scratch.covidfx.domain.Stats;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
-import javax.swing.event.ListSelectionEvent;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -111,5 +109,17 @@ public class PortImplTest {
         
         // Then
         assertTrue(countries.containsAll(Set.of(new Country("Fiji"), new Country("France"))));
+    }
+    
+    @Test
+    void shouldReturnEmptyListOfRecordsIfNoRecordsHaveBeenLoaded(){
+        // Given
+        var port = new PortImpl();
+        
+        // When
+        var records = port.getRecords();
+        
+        // Then
+        assertTrue(records.isEmpty());
     }
 }

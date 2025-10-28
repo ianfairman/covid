@@ -20,6 +20,7 @@ import com.scratch.covidfx.domain.CovidRecord;
 import com.scratch.covidfx.port.LoadPort;
 import com.scratch.covidfx.port.QueryPort;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -44,7 +45,7 @@ public class PortImpl implements LoadPort, QueryPort{
 
     @Override
     public List<Record> getRecords() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return Collections.emptyList();
     }
 
     @Override
