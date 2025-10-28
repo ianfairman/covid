@@ -19,6 +19,9 @@ import com.scratch.covidfx.domain.Country;
 import com.scratch.covidfx.domain.CovidRecord;
 import com.scratch.covidfx.domain.Stats;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
+import javax.swing.event.ListSelectionEvent;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -93,5 +96,20 @@ public class PortImplTest {
         
         // Then
         assertEquals(2, countries.size());
+    }
+    
+    @Test
+    void shouldReturnCorrectTwoCountriesForThreeRecordsWithTwoDifferentCountries() {
+        // Given
+        var port = new PortImpl();
+        port.load(new CovidRecord(new Country("Fiji"), LocalDate.now(), new Stats(0, 0)));
+        port.load(new CovidRecord(new Country("France"), LocalDate.now(), new Stats(0,0)));
+        port.load(new CovidRecord(new Country("France"), LocalDate.now(), new Stats(0,0)));
+        
+        // When
+        var countries = port.getCountries();
+        
+        // Then
+        assertTrue(countries.containsAll(Set.of(new Country("Fiji"), new Country("France"))));
     }
 }
