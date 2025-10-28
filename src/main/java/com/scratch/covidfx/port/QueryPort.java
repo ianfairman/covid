@@ -17,6 +17,7 @@ package com.scratch.covidfx.port;
 
 import com.scratch.covidfx.domain.Country;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -24,7 +25,7 @@ import java.util.List;
  */
 public interface QueryPort {
     
-    List<Country> getCountries();
+    Set<Country> getCountries();
     List<Record> getRecords();
     List<Record> getRecords(Country country);
 }

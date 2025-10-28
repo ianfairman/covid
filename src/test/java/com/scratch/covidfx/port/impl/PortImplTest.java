@@ -63,7 +63,7 @@ public class PortImplTest {
         var countries = port.getCountries();
         
         // Then
-        assertEquals(new Country("Fiji"), countries.getFirst());
+        assertTrue(countries.contains(new Country("Fiji")));
     }
     
     @Test

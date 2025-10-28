@@ -21,6 +21,8 @@ import com.scratch.covidfx.port.LoadPort;
 import com.scratch.covidfx.port.QueryPort;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -36,8 +38,8 @@ public class PortImpl implements LoadPort, QueryPort{
     }
 
     @Override
-    public List<Country> getCountries() {
-        return records.stream().map(CovidRecord::country).toList();
+    public Set<Country> getCountries() {
+        return records.stream().map(CovidRecord::country).collect(Collectors.toSet());
     }
 
     @Override
