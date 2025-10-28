@@ -17,11 +17,9 @@ package com.scratch.covidfx.port.impl;
 
 import com.scratch.covidfx.domain.Country;
 import com.scratch.covidfx.domain.CovidRecord;
-import com.scratch.covidfx.domain.Stats;
 import com.scratch.covidfx.port.LoadPort;
 import com.scratch.covidfx.port.QueryPort;
-import java.time.LocalDate;
-import static java.util.Collections.emptyList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,11 +28,11 @@ import java.util.List;
  */
 public class PortImpl implements LoadPort, QueryPort{
 
-    private List<CovidRecord> records = emptyList();
+    private List<CovidRecord> records = new ArrayList<>();
     
     @Override
     public void load(CovidRecord record) {
-        records = List.of(record);
+        records.add(record);
     }
 
     @Override

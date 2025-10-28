@@ -27,10 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Ian Fairman <ian.fairman@gmail.com>
  */
 public class PortImplTest {
-    
-    public PortImplTest() {
-    }
-    
+        
     @Test
     void shouldReturnNoCountriesIfNoneHaveBeenLoaded() {
         // Given
@@ -67,5 +64,19 @@ public class PortImplTest {
         
         // Then
         assertEquals(new Country("Fiji"), countries.getFirst());
+    }
+    
+    @Test
+    void shouldReturnTwoCountriesForTwoRecordsWithDifferentCountries() {
+                // Given
+        var port = new PortImpl();
+        port.load(new CovidRecord(new Country("Fiji"), LocalDate.now(), new Stats(0, 0)));
+        port.load(new CovidRecord(new Country("France"), LocalDate.now(), new Stats(0,0)));
+        
+        // When
+        var countries = port.getCountries();
+        
+        // Then
+        assertEquals(2, countries.size());
     }
 }
