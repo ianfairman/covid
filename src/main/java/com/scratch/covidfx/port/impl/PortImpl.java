@@ -44,12 +44,7 @@ public class PortImpl implements LoadPort, QueryPort{
     }
 
     @Override
-    public List<Record> getRecords() {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public List<Record> getRecords(Country country) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<CovidRecord> getRecords() {
+        return records;
     }
 }

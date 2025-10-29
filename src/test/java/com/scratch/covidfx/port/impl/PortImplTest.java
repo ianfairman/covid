@@ -122,4 +122,18 @@ public class PortImplTest {
         // Then
         assertTrue(records.isEmpty());
     }
+    
+    @Test
+    void shouldReturnRecordIfItIsAdded() {
+        // Given
+        var port = new PortImpl();
+        var recordToAdd = new CovidRecord(new Country("Spain"), LocalDate.now(), new Stats(0L, 0L));
+        port.load(recordToAdd);
+        
+        // When
+        var records = port.getRecords();
+        
+        // Then
+        assertEquals(recordToAdd, records.getFirst());
+    }
 }
