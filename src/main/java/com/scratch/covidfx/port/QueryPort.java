@@ -26,6 +26,9 @@ import java.util.stream.Stream;
  */
 public interface QueryPort {
     
-    Stream<Country> getCountries();
     List<CovidRecord> getRecords();
+    
+    default Stream<Country> getCountries() {
+        return getRecords().stream().map(CovidRecord::country).distinct();
+    }
 }
