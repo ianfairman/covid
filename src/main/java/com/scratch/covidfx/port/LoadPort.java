@@ -23,5 +23,5 @@ import com.scratch.covidfx.domain.CovidRecord;
  */
 public interface LoadPort {
     
-    void load(CovidRecord record);
+    void add(CovidRecord record);
 }

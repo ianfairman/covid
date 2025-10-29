@@ -35,16 +35,11 @@ public class PortImpl implements LoadPort, QueryPort{
     private final List<CovidRecord> records = new ArrayList<>();
     
     @Override
-    public void load(CovidRecord record) {
+    public void add(CovidRecord record) {
         records.add(record);
     }
 
-    @Override
-    public Stream<Country> getCountries() {
-        return records.stream().map(CovidRecord::country).distinct();
-    }
-
-    @Override
+     @Override
     public List<CovidRecord> getRecords() {
         return records;
     }
