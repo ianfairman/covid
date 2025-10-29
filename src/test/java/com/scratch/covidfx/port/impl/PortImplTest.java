@@ -38,7 +38,7 @@ public class PortImplTest {
         var countries = port.getCountries();
         
         // Then
-        assertEquals(0, countries.size());
+        assertEquals(0, countries.count());
     }
     
     @Test
@@ -51,7 +51,7 @@ public class PortImplTest {
         var countries = port.getCountries();
         
         // Then
-        assertEquals(1, countries.size());
+        assertEquals(1, countries.count());
     }
     
     @Test
@@ -64,7 +64,7 @@ public class PortImplTest {
         var countries = port.getCountries();
         
         // Then
-        assertTrue(countries.contains(new Country("Fiji")));
+        assertTrue(countries.toList().contains(new Country("Fiji")));
     }
     
     @Test
@@ -78,7 +78,7 @@ public class PortImplTest {
         var countries = port.getCountries();
         
         // Then
-        assertEquals(2, countries.size());
+        assertEquals(2, countries.count());
     }
     
     @Test
@@ -93,7 +93,7 @@ public class PortImplTest {
         var countries = port.getCountries();
         
         // Then
-        assertEquals(2, countries.size());
+        assertEquals(2, countries.count());
     }
     
     @Test
@@ -108,7 +108,7 @@ public class PortImplTest {
         var countries = port.getCountries();
         
         // Then
-        assertTrue(countries.containsAll(Set.of(new Country("Fiji"), new Country("France"))));
+        assertTrue(countries.toList().containsAll(Set.of(new Country("Fiji"), new Country("France"))));
     }
     
     @Test

@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  *
@@ -31,7 +32,7 @@ import java.util.stream.Collectors;
  */
 public class PortImpl implements LoadPort, QueryPort{
 
-    private List<CovidRecord> records = new ArrayList<>();
+    private final List<CovidRecord> records = new ArrayList<>();
     
     @Override
     public void load(CovidRecord record) {
@@ -39,8 +40,8 @@ public class PortImpl implements LoadPort, QueryPort{
     }
 
     @Override
-    public Set<Country> getCountries() {
-        return records.stream().map(CovidRecord::country).collect(Collectors.toSet());
+    public Stream<Country> getCountries() {
+        return records.stream().map(CovidRecord::country).distinct();
     }
 
     @Override
