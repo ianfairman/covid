@@ -16,16 +16,16 @@
 package com.scratch.covidfx.port.impl;
 
 import com.scratch.covidfx.domain.CovidRecord;
-import com.scratch.covidfx.port.LoadPort;
 import com.scratch.covidfx.port.QueryPort;
 import java.util.ArrayList;
 import java.util.List;
+import com.scratch.covidfx.port.CommandPort;
 
 /**
  *
  * @author Ian Fairman <ian.fairman@gmail.com>
  */
-public class PortImpl implements LoadPort, QueryPort{
+public class PortImpl implements CommandPort, QueryPort{
 
     private final List<CovidRecord> records = new ArrayList<>();
     

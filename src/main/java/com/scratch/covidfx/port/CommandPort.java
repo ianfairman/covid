@@ -22,7 +22,7 @@ import java.util.stream.Stream;
  *
  * @author Ian Fairman <ian.fairman@gmail.com>
  */
-public interface LoadPort {
+public interface CommandPort {
     
     void add(CovidRecord record);
     
