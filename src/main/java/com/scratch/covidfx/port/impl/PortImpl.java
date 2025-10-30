@@ -20,6 +20,7 @@ import com.scratch.covidfx.port.QueryPort;
 import java.util.ArrayList;
 import java.util.List;
 import com.scratch.covidfx.port.CommandPort;
+import static java.util.Collections.unmodifiableList;
 
 /**
  *
@@ -36,6 +37,6 @@ public class PortImpl implements CommandPort, QueryPort{
 
     @Override
     public List<CovidRecord> getRecords() {
-        return records;
+        return unmodifiableList(records);
     }
 }
