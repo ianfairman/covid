@@ -19,6 +19,7 @@ import com.scratch.covidfx.domain.Country;
 import com.scratch.covidfx.domain.CovidRecord;
 import com.scratch.covidfx.domain.Stats;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -135,5 +136,21 @@ public class PortImplTest {
         
         // Then
         assertEquals(recordToAdd, records.getFirst());
+    }
+    
+    @Test
+    void shouldAddStreamToRecord() {
+        // Given
+        var port = new PortImpl();
+        var recordsList = List.of(
+                new CovidRecord(new Country("Spain"), LocalDate.now(), new Stats(0L, 0L)),
+                new CovidRecord(new Country("Mexico"), LocalDate.now(), new Stats(0L, 0L)));
+        var recordsToAdd = recordsList.stream();
+        
+        // When
+        port.add(recordsToAdd);
+        
+        // Then
+        assertTrue(port.getRecords().containsAll(recordsList));
     }
 }

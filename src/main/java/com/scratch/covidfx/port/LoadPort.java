@@ -16,6 +16,7 @@
 package com.scratch.covidfx.port;
 
 import com.scratch.covidfx.domain.CovidRecord;
+import java.util.stream.Stream;
 
 /**
  *
@@ -24,4 +25,8 @@ import com.scratch.covidfx.domain.CovidRecord;
 public interface LoadPort {
     
     void add(CovidRecord record);
+    
+    default void add(Stream<CovidRecord> recordStream) {
+        recordStream.forEach(this::add);
+    }
 }

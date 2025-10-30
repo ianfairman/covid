@@ -15,16 +15,11 @@
  */
 package com.scratch.covidfx.port.impl;
 
-import com.scratch.covidfx.domain.Country;
 import com.scratch.covidfx.domain.CovidRecord;
 import com.scratch.covidfx.port.LoadPort;
 import com.scratch.covidfx.port.QueryPort;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  *
@@ -39,7 +34,7 @@ public class PortImpl implements LoadPort, QueryPort{
         records.add(record);
     }
 
-     @Override
+    @Override
     public List<CovidRecord> getRecords() {
         return records;
     }
