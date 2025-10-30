@@ -153,4 +153,21 @@ public class PortImplTest {
         // Then
         assertTrue(port.getRecords().containsAll(recordsList));
     }
+    
+    @Test
+    void shouldClearRecord() {
+        // Given
+        var port = new PortImpl();
+        var recordsList = List.of(
+                new CovidRecord(new Country("Spain"), LocalDate.now(), new Stats(0L, 0L)),
+                new CovidRecord(new Country("Mexico"), LocalDate.now(), new Stats(0L, 0L)));
+        var recordsToAdd = recordsList.stream();
+        port.add(recordsToAdd);
+        
+        // When
+        port.clear();
+        
+        // Then
+        assertEquals(0, port.getRecords().size());
+    }
 }

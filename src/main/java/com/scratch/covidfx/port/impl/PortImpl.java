@@ -39,4 +39,9 @@ public class PortImpl implements CommandPort, QueryPort{
     public List<CovidRecord> getRecords() {
         return unmodifiableList(records);
     }
+
+    @Override
+    public void clear() {
+        records.clear();
+    }
 }

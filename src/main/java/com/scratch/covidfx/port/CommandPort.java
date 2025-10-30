@@ -26,6 +26,8 @@ public interface CommandPort {
     
     void add(CovidRecord record);
     
+    void clear();
+    
     default void add(Stream<CovidRecord> recordStream) {
         recordStream.forEach(this::add);
     }
