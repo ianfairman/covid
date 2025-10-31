@@ -26,7 +26,7 @@ import static java.util.Collections.unmodifiableList;
  *
  * @author Ian Fairman <ian.fairman@gmail.com>
  */
-public class PortImpl implements CommandPort, QueryPort{
+public class PortImpl implements CommandPort<CovidRecord>, QueryPort{
 
     private final List<CovidRecord> records = new ArrayList<>();
     

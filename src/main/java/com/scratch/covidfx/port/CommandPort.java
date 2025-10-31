@@ -22,13 +22,13 @@ import java.util.stream.Stream;
  *
  * @author Ian Fairman <ian.fairman@gmail.com>
  */
-public interface CommandPort {
+public interface CommandPort<T> {
     
-    void add(CovidRecord record);
+    void add(T record);
     
     void clear();
     
-    default void add(Stream<CovidRecord> recordStream) {
+    default void add(Stream<T> recordStream) {
         recordStream.forEach(this::add);
     }
 }
